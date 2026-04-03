@@ -82,6 +82,7 @@ const Navbar = () => {
                 <Link to="/add-medicine">Add Medicine</Link>
                 <Link to="/medicines">Medicines</Link>
                 <Link to="/reports">Reports</Link>
+                <Link to="/ai-chat">AI Assistant</Link>
               </>
             )}
 
@@ -161,6 +162,7 @@ const Navbar = () => {
                   <Link to="/add-medicine" onClick={handleLinkClick}>Add Medicine</Link>
                   <Link to="/medicines" onClick={handleLinkClick}>Medicines</Link>
                   <Link to="/reports" onClick={handleLinkClick}>Reports</Link>
+                  <Link to="/ai-chat">AI Assistant</Link>
                 </>
               )}
 

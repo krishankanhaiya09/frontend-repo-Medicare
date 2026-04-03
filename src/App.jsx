@@ -13,6 +13,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import PublicRoute from './components/PublicRoute'
 import AdminDashboard from './pages/AdminDashboard'
 import DoctorDashboard from './pages/DoctorDashboard'
+import AIChat from './pages/AICHAT'
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
+<Route path="/ai-chat" element={<AIChat />} />
         <Route
           path="/login"
           element={
