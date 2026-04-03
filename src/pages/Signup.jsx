@@ -8,6 +8,7 @@ const Signup = () => {
   const [form, setForm] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     role: 'patient'
   })
@@ -19,6 +20,11 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault()
 
+    if (!form.phone.startsWith('+91')) {
+      alert('Phone number must start with +91')
+      return
+    }
+
     try {
       const res = await API.post('/auth/signup', form)
       alert(res.data.message)
@@ -29,7 +35,10 @@ const Signup = () => {
   }
 
   return (
-    <div className="page" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      className="page"
+      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+    >
       <form
         onSubmit={handleSignup}
         className="glass-card"
@@ -42,19 +51,64 @@ const Signup = () => {
           gap: '18px'
         }}
       >
-        <h2 style={{ fontSize: '32px', textAlign: 'center', color: '#991b1b' }}>Signup</h2>
+        <h2 style={{ fontSize: '32px', textAlign: 'center', color: '#991b1b' }}>
+          Signup
+        </h2>
 
-        <input type="text" name="name" placeholder="Enter name" value={form.name} onChange={handleChange} style={inputStyle} />
-        <input type="email" name="email" placeholder="Enter email" value={form.email} onChange={handleChange} style={inputStyle} />
-        <input type="password" name="password" placeholder="Enter password" value={form.password} onChange={handleChange} style={inputStyle} />
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter name"
+          value={form.name}
+          onChange={handleChange}
+          style={inputStyle}
+          required
+        />
 
-        <select name="role" value={form.role} onChange={handleChange} style={inputStyle}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email"
+          value={form.email}
+          onChange={handleChange}
+          style={inputStyle}
+          required
+        />
+
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Enter Phone Number (+91XXXXXXXXXX)"
+          value={form.phone}
+          onChange={handleChange}
+          style={inputStyle}
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter password"
+          value={form.password}
+          onChange={handleChange}
+          style={inputStyle}
+          required
+        />
+
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          style={inputStyle}
+        >
           <option value="patient">Patient</option>
           <option value="caregiver">Caregiver</option>
           <option value="doctor">Doctor</option>
         </select>
 
-        <button className="glow-btn" type="submit">Create Account</button>
+        <button className="glow-btn" type="submit">
+          Create Account
+        </button>
       </form>
     </div>
   )
