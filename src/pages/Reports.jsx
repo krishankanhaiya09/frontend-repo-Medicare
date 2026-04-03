@@ -11,7 +11,9 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend
+  Legend,
+  LineChart,
+  Line
 } from 'recharts'
 
 const Reports = () => {
@@ -75,6 +77,16 @@ const Reports = () => {
     { name: 'Taken', value: summary.taken },
     { name: 'Missed', value: summary.missed },
     { name: 'Delayed', value: summary.delayed }
+  ]
+
+  const lineData = [
+    { day: 'Mon', taken: 2, missed: 0, delayed: 1 },
+    { day: 'Tue', taken: 3, missed: 1, delayed: 0 },
+    { day: 'Wed', taken: 4, missed: 0, delayed: 1 },
+    { day: 'Thu', taken: 3, missed: 1, delayed: 1 },
+    { day: 'Fri', taken: 5, missed: 0, delayed: 0 },
+    { day: 'Sat', taken: 4, missed: 1, delayed: 1 },
+    { day: 'Sun', taken: 5, missed: 0, delayed: 0 }
   ]
 
   const circleDegree = (progress / 100) * 360
@@ -145,7 +157,7 @@ const Reports = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="value" radius={[10, 10, 0, 0]} />
+              <Bar dataKey="value" radius={[10, 10, 0, 0]} fill="#ef4444" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -194,6 +206,44 @@ const Reports = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="glass-card" style={{ padding: '24px', minHeight: '380px', marginBottom: '30px' }}>
+        <h2 style={chartHeading}>Weekly Adherence Trend</h2>
+
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={lineData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="day" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="taken"
+              stroke="#10b981"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+              activeDot={{ r: 7 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="missed"
+              stroke="#ef4444"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+              activeDot={{ r: 7 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="delayed"
+              stroke="#f59e0b"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+              activeDot={{ r: 7 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
       <div

@@ -1,74 +1,95 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer
       style={{
-        marginTop: '60px',
-        padding: '40px 20px',
-        background: 'rgba(255, 255, 255, 0.6)',
-        backdropFilter: 'blur(10px)',
-        borderTop: '1px solid rgba(255,0,0,0.1)'
+        marginTop: "80px",
+        padding: "50px 20px",
+        background: "#ffffff",
+        borderTop: "1px solid #e5e7eb"
       }}
     >
       <div
         style={{
-          maxWidth: '1200px',
-          margin: 'auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '30px'
+          maxWidth: "1100px",
+          margin: "auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "30px"
         }}
       >
-       
+        {/* Brand */}
         <div>
-          <h2 style={{ color: '#991b1b', marginBottom: '10px' }}>MediTrack</h2>
-          <p style={{ color: '#7f1d1d', lineHeight: '1.6' }}>
-            Smart medication tracking system helping patients stay consistent
-            with their treatment and improve adherence.
+          <h2 style={{ color: "#111827", marginBottom: "10px" }}>
+            MediTrack
+          </h2>
+          <p style={{ color: "#6b7280", lineHeight: "1.6" }}>
+            Smart medication tracking system to help patients stay consistent
+            with their treatment.
           </p>
         </div>
 
-       
+        {/* Links */}
         <div>
-          <h3 style={{ color: '#991b1b', marginBottom: '12px' }}>Quick Links</h3>
-          <p>Home</p>
-          <p>Dashboard</p>
-          <p>Medicines</p>
-          <p>Reports</p>
+          <h4 style={heading}>Quick Links</h4>
+          <Link to="/" style={link}>Home</Link>
+          <Link to="/dashboard" style={link}>Dashboard</Link>
+          <Link to="/medicines" style={link}>Medicines</Link>
+          <Link to="/reports" style={link}>Reports</Link>
         </div>
 
-        
+        {/* Contact */}
         <div>
-          <h3 style={{ color: '#991b1b', marginBottom: '12px' }}>Contact Us</h3>
-          <p>Email: support@meditrack.com</p>
-          <p>Phone: +91 9876543210</p>
-          <p>Location: India</p>
+          <h4 style={heading}>Contact</h4>
+          <p style={text}>support@meditrack.com</p>
+          <p style={text}>+91 9876543210</p>
+          <p style={text}>India</p>
         </div>
 
-        
+        {/* Social */}
         <div>
-          <h3 style={{ color: '#991b1b', marginBottom: '12px' }}>Follow Us</h3>
-          <p>Instagram</p>
-          <p>LinkedIn</p>
-          <p>GitHub</p>
+          <h4 style={heading}>Social</h4>
+          <a href="#" style={link}>Instagram</a>
+          <a href="#" style={link}>LinkedIn</a>
+          <a href="#" style={link}>GitHub</a>
         </div>
       </div>
 
-      
+      {/* Bottom */}
       <div
         style={{
-          textAlign: 'center',
-          marginTop: '30px',
-          borderTop: '1px solid rgba(255,0,0,0.1)',
-          paddingTop: '15px',
-          color: '#7f1d1d'
+          textAlign: "center",
+          marginTop: "30px",
+          paddingTop: "15px",
+          borderTop: "1px solid #e5e7eb",
+          color: "#6b7280",
+          fontSize: "14px"
         }}
       >
-        © 2026 MediTrack | Built with ❤️ by Carecoders
+        © 2026 MediTrack. All rights reserved.
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+const heading = {
+  marginBottom: "10px",
+  color: "#111827",
+  fontWeight: "600"
+};
+
+const link = {
+  display: "block",
+  marginBottom: "6px",
+  color: "#6b7280",
+  textDecoration: "none"
+};
+
+const text = {
+  marginBottom: "6px",
+  color: "#6b7280"
+};
+
+export default Footer;
