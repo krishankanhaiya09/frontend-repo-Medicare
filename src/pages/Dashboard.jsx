@@ -7,7 +7,24 @@ const Dashboard = () => {
   const [medicines, setMedicines] = useState([])
   const [loading, setLoading] = useState(true)
   const [reminderPopup, setReminderPopup] = useState(null)
+const [streak, setStreak] = useState({
+  currentStreak: 0,
+  longestStreak: 0,
+  todayStatus: "no-data"
+});
 
+useEffect(() => {
+  const fetchStreak = async () => {
+    try {
+      const res = await API.get("/reports/streak");
+      setStreak(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchStreak();
+}, []);
   const fetchDashboardData = async () => {
     try {
       const [reportRes, medicineRes] = await Promise.all([
@@ -239,7 +256,19 @@ const Dashboard = () => {
           <p style={{ marginBottom: '18px' }}>
             <strong>Adherence Rate:</strong> {adherenceRate}%
           </p>
-
+<div className="glass-card" style={{ padding: "20px", marginTop: "20px" }}>
+  <h2>🔥 Streak Progress</h2>
+  <p>Current Streak: {streak.currentStreak} day(s)</p>
+  <p>Longest Streak: {streak.longestStreak} day(s)</p>
+  <p>
+    Today Status:{" "}
+    {streak.todayStatus === "success"
+      ? "Completed"
+      : streak.todayStatus === "failed"
+      ? "Missed"
+      : "No data"}
+  </p>
+</div>
           <div style={{ marginTop: '14px' }}>
             <div
               style={{
@@ -250,6 +279,7 @@ const Dashboard = () => {
                 overflow: 'hidden'
               }}
             >
+              
               <div
                 style={{
                   width: `${Math.min(adherenceRate, 100)}%`,
