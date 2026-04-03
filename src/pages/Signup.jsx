@@ -76,15 +76,14 @@ const Signup = () => {
         />
 
         <input
-          type="tel"
-          name="phone"
-          placeholder="Enter Phone Number (+91XXXXXXXXXX)"
-          value={form.phone}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
+  type="tel"
+  name="phone"
+  placeholder="Enter Phone Number (+91XXXXXXXXXX)"
+  value={form.phone}
+  onChange={handleChange}
+  style={inputStyle}
+  required
+/>
         <input
           type="password"
           name="password"
