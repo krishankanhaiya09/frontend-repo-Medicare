@@ -13,7 +13,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import PublicRoute from './components/PublicRoute'
 import AdminDashboard from './pages/AdminDashboard'
 import DoctorDashboard from './pages/DoctorDashboard'
-import AIChat from './pages/AICHAT'
+import AIChat from './pages/AIChat'
 
 const App = () => {
   return (
