@@ -1,141 +1,111 @@
 import React, { useState } from "react";
-import API from "../api";
 
 const AIChat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      text: "Hi, I’m MediTrack AI. Ask me general medicine or health-related questions.",
+      text: "Hi, I’m MediTrack Assistant. Ask me basic health-related questions.",
     },
   ]);
-  const [loading, setLoading] = useState(false);
 
-  const handleSend = async () => {
+  const getDummyReply = (text) => {
+    const msg = text.toLowerCase();
+
+    if (msg.includes("fever")) {
+      return "For fever, stay hydrated, rest well, and monitor your temperature. Please consult a doctor if it gets worse.";
+    }
+    if (msg.includes("headache")) {
+      return "For headache, drink water, take proper rest, and avoid too much screen time. If severe, consult a doctor.";
+    }
+    if (msg.includes("cold") || msg.includes("cough")) {
+      return "For cold or cough, take rest, drink warm fluids, and consult a doctor if symptoms continue.";
+    }
+    if (msg.includes("medicine")) {
+      return "Please take your medicine on time and follow the prescription given by your doctor.";
+    }
+
+    return "I’m a demo assistant right now. For medical emergencies or exact advice, please consult a doctor.";
+  };
+
+  const handleSend = () => {
     if (!message.trim()) return;
 
     const userMessage = { role: "user", text: message };
-    setMessages((prev) => [...prev, userMessage]);
-    setLoading(true);
+    const botReply = {
+      role: "assistant",
+      text: getDummyReply(message),
+    };
 
-    try {
-      const res = await API.post("/chat", { message });
-
-      const botMessage = {
-        role: "assistant",
-        text: res.data.reply,
-      };
-
-      setMessages((prev) => [...prev, botMessage]);
-      setMessage("");
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          text: "Sorry, AI assistant is not available right now.",
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
+    setMessages((prev) => [...prev, userMessage, botReply]);
+    setMessage("");
   };
 
   return (
-    <div className="page">
+    <div style={{ padding: "20px" }}>
+      <h2>MediTrack Assistant</h2>
+
       <div
-        className="glass-card"
         style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "24px",
-          borderRadius: "24px",
+          border: "1px solid #ddd",
+          borderRadius: "10px",
+          padding: "15px",
+          height: "350px",
+          overflowY: "auto",
+          marginBottom: "15px",
+          background: "#f9f9f9",
         }}
       >
-        <h1 className="section-title" style={{ marginBottom: "10px" }}>
-          MediTrack AI Assistant
-        </h1>
-        <p style={{ color: "#6b7280", marginBottom: "20px" }}>
-          Ask general health or medicine-related questions.
-        </p>
-
-        <div
-          style={{
-            height: "450px",
-            overflowY: "auto",
-            border: "1px solid rgba(239,68,68,0.12)",
-            borderRadius: "20px",
-            padding: "16px",
-            background: "rgba(255,255,255,0.55)",
-            marginBottom: "16px",
-          }}
-        >
-          {messages.map((msg, index) => (
-            <div
-              key={index}
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            style={{
+              textAlign: msg.role === "user" ? "right" : "left",
+              margin: "10px 0",
+            }}
+          >
+            <span
               style={{
-                display: "flex",
-                justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-                marginBottom: "12px",
+                display: "inline-block",
+                padding: "10px 14px",
+                borderRadius: "12px",
+                background: msg.role === "user" ? "#3b82f6" : "#e5e7eb",
+                color: msg.role === "user" ? "#fff" : "#111",
+                maxWidth: "75%",
               }}
             >
-              <div
-                style={{
-                  maxWidth: "75%",
-                  padding: "12px 16px",
-                  borderRadius: "16px",
-                  background:
-                    msg.role === "user"
-                      ? "linear-gradient(135deg, #ef4444, #f87171)"
-                      : "rgba(255,255,255,0.88)",
-                  color: msg.role === "user" ? "#fff" : "#374151",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
-                  lineHeight: "1.6",
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {msg.text}
-              </div>
-            </div>
-          ))}
+              {msg.text}
+            </span>
+          </div>
+        ))}
+      </div>
 
-          {loading && (
-            <div style={{ color: "#991b1b", padding: "8px 0" }}>
-              MediTrack AI is typing...
-            </div>
-          )}
-        </div>
-
-        <div
+      <div style={{ display: "flex", gap: "10px" }}>
+        <input
+          type="text"
+          placeholder="Ask something..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           style={{
-            display: "flex",
-            gap: "12px",
-            flexWrap: "wrap",
+            flex: 1,
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+          }}
+        />
+        <button
+          onClick={handleSend}
+          style={{
+            padding: "12px 20px",
+            border: "none",
+            borderRadius: "8px",
+            background: "#2563eb",
+            color: "#fff",
+            cursor: "pointer",
           }}
         >
-          <input
-            type="text"
-            placeholder="Ask about medicines, side effects, precautions..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSend();
-            }}
-            style={{
-              flex: 1,
-              minWidth: "240px",
-              padding: "14px 16px",
-              borderRadius: "14px",
-              border: "1px solid rgba(239,68,68,0.15)",
-              outline: "none",
-              fontSize: "15px",
-            }}
-          />
-
-          <button className="glow-btn" onClick={handleSend} disabled={loading}>
-            Send
-          </button>
-        </div>
+          Send
+        </button>
       </div>
     </div>
   );
