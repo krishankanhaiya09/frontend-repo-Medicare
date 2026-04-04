@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const Home = () => {
   const token = localStorage.getItem('token')
   const [showPopup, setShowPopup] = useState(false)
+  const [selectedDoctor, setSelectedDoctor] = useState(null)
 
   const features = [
     {
@@ -44,9 +45,18 @@ const Home = () => {
     }
   ]
 
+  const handleBookAppointment = (doctor) => {
+    setSelectedDoctor(doctor)
+    setShowPopup(true)
+  }
+
+  const closePopup = () => {
+    setShowPopup(false)
+    setSelectedDoctor(null)
+  }
+
   return (
     <div className="page">
-      {/* HERO SECTION */}
       <div
         className="glass-card"
         style={{
@@ -145,7 +155,6 @@ const Home = () => {
         </div>
       </div>
 
-     
       <div style={{ marginTop: '50px' }}>
         <h2 className="section-title">Why Use MediTrack?</h2>
 
@@ -165,7 +174,6 @@ const Home = () => {
         </div>
       </div>
 
-     
       <div style={{ marginTop: '60px' }}>
         <h2 className="section-title">Need a Consultant?</h2>
         <p
@@ -212,7 +220,7 @@ const Home = () => {
 
               <button
                 className="glow-btn"
-                onClick={() => setShowPopup(true)}
+                onClick={() => handleBookAppointment(doctor)}
               >
                 Book Appointment
               </button>
@@ -221,8 +229,7 @@ const Home = () => {
         </div>
       </div>
 
-      
-      {showPopup && (
+      {showPopup && selectedDoctor && (
         <div
           style={{
             position: 'fixed',
@@ -241,7 +248,7 @@ const Home = () => {
             style={{
               background: '#fff',
               width: '90%',
-              maxWidth: '360px',
+              maxWidth: '420px',
               borderRadius: '20px',
               padding: '30px',
               textAlign: 'center',
@@ -249,19 +256,41 @@ const Home = () => {
             }}
           >
             <h2 style={{ color: '#991b1b', marginBottom: '12px' }}>
-              Appointment Confirmed
+              {selectedDoctor.name}
             </h2>
 
-            <p style={{ color: '#7f1d1d', marginBottom: '20px', lineHeight: '1.6' }}>
-              Doctor will call you shortly 📞
+            <p
+              style={{
+                color: '#7f1d1d',
+                marginBottom: '10px',
+                fontWeight: '600'
+              }}
+            >
+              {selectedDoctor.specialization}
             </p>
 
-            <button
-              className="glow-btn"
-              onClick={() => setShowPopup(false)}
-            >
-              OK
-            </button>
+            <p style={{ color: '#7f1d1d', marginBottom: '18px', lineHeight: '1.7' }}>
+              Doctor is available till <strong>{selectedDoctor.timing}</strong>.
+              <br />
+              If you want faster consultation, please try some other doctor.
+            </p>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+              <button
+                className="glow-btn"
+                onClick={closePopup}
+              >
+                OK
+              </button>
+
+              <button
+                className="outline-btn"
+                style={{ padding: '12px 20px' }}
+                onClick={closePopup}
+              >
+                Try Other Doctor
+              </button>
+            </div>
           </div>
         </div>
       )}
